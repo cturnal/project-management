@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 const errorHandler = require('./middleware/errorMiddleware');
@@ -12,11 +13,10 @@ const app = express();
 
 // middleware
 // Body parser, reading data from body into req.body
+app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+app.use(express.urlencoded({ extended: false }));
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // routes
 app.use('/api/users', userRoutes);

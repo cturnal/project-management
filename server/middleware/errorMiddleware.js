@@ -1,5 +1,6 @@
 const errorHandler = (error, req, res, next) => {
   const statusCode = res.statusCode < 400 ? 500 : res.statusCode;
+  console.error('ERROR: ', { name: error.name, message: error.message });
 
   res.status(statusCode).json({
     status: statusCode,

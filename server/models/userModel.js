@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'manager', 'employee'],
+      enum: ['admin', 'manager', 'client', 'employee'],
       default: 'employee',
     },
   },
@@ -39,20 +39,13 @@ userSchema.statics.signup = async function (name, email, password, role) {
   const exists = await this.findOne({ email });
 
   // validation
-  if (exists) {
-    throw Error('Email is already exists');
-  }
-  if (!name || !email || !password) {
-    throw Error('All fields must be filled');
-  }
-  if (!validator.isEmail(email)) {
-    throw Error('Email must be a valid email');
-  }
-  if (!validator.isStrongPassword(password)) {
+  if (exists) throw Error('Email is already exists');
+  if (!name || !email || !password) throw Error('All fields must be filled');
+  if (!validator.isEmail(email)) throw Error('Email must be a valid email');
+  if (!validator.isStrongPassword(password))
     throw Error(
       'Password should contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one symbol or ambiguous character'
     );
-  }
 
   // bcrypt password hashing
   const salt = await bcrypt.genSalt(10);
@@ -68,17 +61,11 @@ userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email }).select('+password');
 
   // validation
-  if (!user) {
-    throw Error('Invalid Credentials');
-  }
-  if (!email || !password) {
-    throw Error('All fields must be filled');
-  }
+  if (!user) throw Error('Invalid Credentials');
+  if (!email || !password) throw Error('All fields must be filled', 401);
 
   const match = await bcrypt.compare(password, user.password);
-  if (!match) {
-    throw Error('Invalid Credentials');
-  }
+  if (!match) throw Error('Invalid Credentials');
 
   return user;
 };
