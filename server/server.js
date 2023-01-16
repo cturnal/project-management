@@ -12,11 +12,10 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 
 // middleware
-// Body parser, reading data from body into req.body
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+app.use(cookieParser());
 
 // routes
 app.use('/api/users', userRoutes);

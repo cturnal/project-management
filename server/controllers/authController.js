@@ -46,7 +46,6 @@ const logoutUser = (req, res) => {
 
 const restrictUser = (...roles) => {
   return (req, res, next) => {
-    console.log(roles, req.user.role);
     if (!roles.includes(req.user.role)) {
       res.status(403);
       throw Error('You do not have permission to perform this action');
