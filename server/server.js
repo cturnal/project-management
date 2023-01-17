@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const errorHandler = require('./middleware/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 // express app
 const app = express();
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 // routes
 app.use('/api/users', userRoutes);
+app.use('/api/projects', projectRoutes);
 
 app.all('*', (req, res, next) => {
   res.status(404);

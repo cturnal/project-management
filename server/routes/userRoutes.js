@@ -25,7 +25,7 @@ router.get('/logout', logoutUser);
 
 // authorization middleware
 router.use(authHandler);
-router.use(restrictUser('admin'));
+router.use(restrictUser('admin', 'manager'));
 
 // users crud routes
 router.route('/').get(getUsers).post(createUser);
