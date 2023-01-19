@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const ErrorHandler = require('../utils/errorHandler');
 
 const userSchema = new mongoose.Schema(
   {
@@ -39,12 +40,15 @@ userSchema.statics.signup = async function (name, email, password, role) {
   const exists = await this.findOne({ email });
 
   // validation
-  if (exists) throw Error('Email is already exists');
-  if (!name || !email || !password) throw Error('All fields must be filled');
-  if (!validator.isEmail(email)) throw Error('Email must be a valid email');
+  if (exists) throw new ErrorHandler('Email is already exists', 400);
+  if (!name || !email || !password)
+    throw new ErrorHandler('All fields must be filled', 400);
+  if (!validator.isEmail(email))
+    throw new ErrorHandler('Email must be a valid email', 400);
   if (!validator.isStrongPassword(password))
-    throw Error(
-      'Password should contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one symbol or ambiguous character'
+    throw new ErrorHandler(
+      'Password should contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one symbol or ambiguous character',
+      400
     );
 
   // bcrypt password hashing
@@ -61,11 +65,12 @@ userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email }).select('+password');
 
   // validation
-  if (!user) throw Error('Invalid Credentials');
-  if (!email || !password) throw Error('All fields must be filled', 401);
+  if (!user) throw new ErrorHandler('Invalid Credentials', 400);
+  if (!email || !password)
+    throw new ErrorHandler('All fields must be filled', 400);
 
   const match = await bcrypt.compare(password, user.password);
-  if (!match) throw Error('Invalid Credentials');
+  if (!match) throw new ErrorHandler('Invalid Credentials', 400);
 
   return user;
 };

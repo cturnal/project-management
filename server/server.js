@@ -5,9 +5,10 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
-const errorHandler = require('./middleware/errorMiddleware');
+const errorMiddleware = require('./middleware/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const ErrorHandler = require('./utils/errorHandler');
 
 // express app
 const app = express();
@@ -21,13 +22,12 @@ app.use(cookieParser());
 // routes
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
-
 app.all('*', (req, res, next) => {
   res.status(404);
-  throw new Error('Route not found');
+  next(new ErrorHandler(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-app.use(errorHandler);
+app.use(errorMiddleware);
 
 // database and server
 mongoose.set('strictQuery', false);

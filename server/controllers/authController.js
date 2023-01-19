@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/userModel');
 const asyncHandler = require('../utils/asyncHandler');
+const ErrorHandler = require('../utils/errorHandler');
 
 // get jwt token
 const createToken = (id) => {
@@ -30,9 +31,9 @@ const loginUser = asyncHandler(async (req, res) => {
   createSendToken(user, 200, req, res);
 });
 
-const signupUser = asyncHandler(async (req, res) => {
-  const { name, email, password, role } = req.body;
-  const user = await User.signup(name, email, password, role);
+const signupUser = asyncHandler(async (req, res, next) => {
+  const { name, email, password, photo } = req.body;
+  const user = await User.signup(name, email, password, photo);
   createSendToken(user, 201, req, res);
 });
 
@@ -47,8 +48,12 @@ const logoutUser = (req, res) => {
 const restrictUser = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      res.status(403);
-      throw Error('You do not have permission to perform this action');
+      next(
+        new ErrorHandler(
+          'You do not have permission to perform this action',
+          403
+        )
+      );
     }
     next();
   };

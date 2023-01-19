@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('./userModel');
+const ErrorHandler = require('../utils/errorHandler');
 
 const projectSchema = new mongoose.Schema(
   {
@@ -11,6 +12,10 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     status: {
       type: String,
       enum: [
@@ -19,17 +24,22 @@ const projectSchema = new mongoose.Schema(
         'in-progress',
         'completed',
         'cancelled',
-        'declined',
         'failed',
       ],
       default: 'pending',
     },
-    clientID: {
+    startDate: {
+      type: Date,
+    },
+    endDate: {
+      type: Date,
+    },
+    client: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       enum: [],
     },
-    managerID: {
+    manager: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       enum: [],
@@ -40,124 +50,54 @@ const projectSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
-
-    startDate: {
-      type: Date,
-      validate: {
-        validator: function (s) {
-          return s.toLocaleString() >= new Date().toLocaleString();
-        },
-        message: 'Start date must be before end date',
-      },
-    },
-    endDate: {
-      type: Date,
-      validate: {
-        validator: function (e) {
-          return e > this.startDate;
-        },
-        message: 'End date must be after start date',
-      },
-    },
   },
   {
     timestamps: true,
   }
 );
 
-projectSchema.path('managerID').validate(function (id) {
-  return User.findById(id).then((user) => {
-    if (user.role === 'manager') return;
-    throw Error('Selected user is not a manager');
-  });
+projectSchema.path('startDate').validate(async function (date) {
+  if (date.toLocaleString() >= new Date().toLocaleString()) return;
+  throw new ErrorHandler('Start date must be before end date', 400);
 });
 
-projectSchema.path('clientID').validate(function (id) {
-  return User.findById(id).then((user) => {
+projectSchema.path('endDate').validate(async function (date) {
+  if (date > this.startDate) return;
+  throw new ErrorHandler('End date must be after start date', 400);
+});
+
+projectSchema.path('client').validate(async function (id) {
+  return await User.findById(id).then((user) => {
     if (user.role === 'client') return;
-    throw Error('Selected user is not a client');
+    throw new ErrorHandler('Selected user is not a client', 400);
   });
 });
 
-projectSchema.statics.createProjectByRole = async function (user, body) {
-  const { name, description, clientID, managerID, startDate, endDate } = body;
-  if (user.role === 'admin') {
-    const project = await this.create({
-      name,
-      description,
-      status: 'in-que',
-      clientID,
-      managerID,
-      startDate,
-      endDate,
-    });
-    return project;
-  }
-
-  if (user.role === 'client') {
-    const project = await this.create({
-      name,
-      description,
-      clientID: user.id,
-    });
-    return project;
-  }
-  return;
-};
-
-projectSchema.statics.updateProjectByRole = async function (
-  user,
-  projectId,
-  body
-) {
-  const { name, description, startDate, endDate, status, team } = body;
-
-  if (user.role === 'admin') {
-    const project = await this.findByIdAndUpdate(projectId, body, {
-      new: true,
-    });
-    return project;
-  }
-
-  const isClient = await this.findOne({
-    _id: projectId,
-    clientID: user.id,
+projectSchema.path('manager').validate(async function (id) {
+  return await User.findById(id).then((user) => {
+    if (user.role === 'manager') return;
+    throw new ErrorHandler('Selected user is not a manager', 400);
   });
-  if (isClient && user.role === 'client' && isClient.status === 'pending') {
-    const project = await this.findByIdAndUpdate(
-      projectId,
-      {
-        name,
-        description,
-      },
-      { new: true }
-    );
-    return project;
-  }
-  const isManager = await this.findOne({
-    _id: projectId,
-    managerID: user.id,
+});
+
+projectSchema.path('team').validate(async function (team) {
+  const developers = await User.find({ _id: { $in: team }, role: 'developer' });
+  if (team.length === developers.length) return;
+  throw new ErrorHandler('Selected user is not a developer', 400);
+});
+
+projectSchema.pre(/^find/, function (next) {
+  this.find({ isActive: { $ne: false } });
+  next();
+});
+
+projectSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'client manager team',
+    select: '-__v -createdAt -updatedAt',
   });
-  if (
-    isManager &&
-    user.role === 'manager' &&
-    (isManager.status === 'in-que' || 'in-progress')
-  ) {
-    const project = await this.findByIdAndUpdate(
-      projectId,
-      {
-        status: 'in-progress',
-        team,
-        startDate,
-        endDate,
-      },
-      {
-        new: true,
-      }
-    );
-    return project;
-  }
-  return;
-};
+
+  next();
+});
 
 module.exports = mongoose.model('Project', projectSchema);
