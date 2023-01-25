@@ -1,8 +1,8 @@
 const express = require('express');
 
-const authMiddleware = require('../middleware/authMiddleware');
-
 const router = express.Router();
+
+const authMiddleware = require('../middleware/authMiddleware');
 
 const {
   loginUser,
@@ -20,6 +20,7 @@ const {
   deleteUser,
   getMyProfile,
   updateProfile,
+  uploadUserPhoto,
 } = require('../controllers/userController');
 
 // authentication routes
@@ -30,7 +31,7 @@ router.get('/logout', logoutUser);
 // user should be authenticated
 router.use(authMiddleware);
 router.get('/my-profile', getMyProfile, getUser);
-router.patch('/update-profile', updateProfile, updateUser);
+router.patch('/update-profile', uploadUserPhoto, updateProfile, updateUser);
 router.patch('/update-password', updatePassword);
 
 // router.use(restrictUser('admin'));

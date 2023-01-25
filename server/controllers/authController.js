@@ -24,12 +24,12 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password)
     return next(new ErrorHandler('All fields must be filled', 400));
 
-  const user = await this.findOne({ email }).select('+password');
+  const user = await User.findOne({ email }).select('+password');
 
   if (!user || !(await user.checkPassword(password, user.password)))
     return next(new ErrorHandler('Invalid Credentials', 400));
