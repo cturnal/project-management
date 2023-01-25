@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/userModel');
 const asyncHandler = require('../utils/asyncHandler');
 const ErrorHandler = require('../utils/errorHandler');
@@ -27,13 +26,20 @@ const createSendToken = (user, statusCode, req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.login(email, password);
+  if (!email || !password)
+    return next(new ErrorHandler('All fields must be filled', 400));
+
+  const user = await this.findOne({ email }).select('+password');
+
+  if (!user || !(await user.checkPassword(password, user.password)))
+    return next(new ErrorHandler('Invalid Credentials', 400));
+
   createSendToken(user, 200, req, res);
 });
 
-const signupUser = asyncHandler(async (req, res, next) => {
-  const { name, email, password, photo } = req.body;
-  const user = await User.signup(name, email, password, photo);
+const signupUser = asyncHandler(async (req, res) => {
+  const { name, email, password, passwordConfirm } = req.body;
+  const user = await User.create({ name, email, password, passwordConfirm });
   createSendToken(user, 201, req, res);
 });
 
@@ -59,9 +65,24 @@ const restrictUser = (...roles) => {
   };
 };
 
+const updatePassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select('+password');
+  if (!(await user.checkPassword(req.body.password, user.password))) {
+    return next(new ErrorHandler('Your current password is wrong.', 401));
+  }
+  if (await user.checkPassword(req.body.newPassword, user.password))
+    return next(new ErrorHandler('Please Change your password', 401));
+
+  user.password = req.body.newPassword;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+  createSendToken(user, 201, req, res);
+});
+
 module.exports = {
   loginUser,
   signupUser,
   logoutUser,
   restrictUser,
+  updatePassword,
 };

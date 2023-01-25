@@ -5,8 +5,7 @@ const ErrorHandler = require('../utils/errorHandler');
 
 const limitFieldsByRole = asyncHandler(async (req, res, next) => {
   const project = await Project.findById(req.params.id);
-  const role = req.user.role;
-  const user = req.user.id;
+  const { role, id: user } = req.user;
   const { name, description, team, startDate, endDate } = req.body;
 
   if (!project && role === 'client') {
@@ -15,34 +14,23 @@ const limitFieldsByRole = asyncHandler(async (req, res, next) => {
       description,
       client: user,
     };
-    console.log('client create project');
-    return next();
-  }
-  if (user === project?.client?.toLocaleString()) {
+  } else if (user === project?.client._id.toLocaleString()) {
     req.body = {
       name,
       description,
     };
-    console.log('client update project');
-    return next();
-  }
-
-  if (user === project?.manager?.toLocaleString()) {
+  } else if (user === project?.manager._id.toLocaleString()) {
     req.body = {
       status: 'in-progress',
       team,
       startDate,
       endDate,
     };
-    console.log('manager update project');
-    return next();
+  } else if (role === 'admin') {
+  } else {
+    return next(new ErrorHandler('Not authorized', 403));
   }
-  if (role === 'admin') {
-    console.log('admin create or update project');
-    return next();
-  }
-
-  return next(new ErrorHandler('Not authorized', 403));
+  return next();
 });
 
 const cancelProject = asyncHandler(async (req, res, next) => {
@@ -52,7 +40,7 @@ const cancelProject = asyncHandler(async (req, res, next) => {
 
   if (user !== proj.client._id.toLocaleString())
     return next(new ErrorHandler('Not authorized', 403));
-  if ((proj.status === 'completed', 'failed'))
+  if (proj.status === 'completed' || proj.status === 'failed')
     return next(new ErrorHandler('Not authorized', 403));
 
   await Project.findByIdAndUpdate(req.params.id, { isActive: false });
