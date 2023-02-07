@@ -53,8 +53,16 @@ const projectSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+projectSchema.virtual('tasks', {
+  ref: 'Task',
+  foreignField: 'project',
+  localField: '_id',
+});
 
 projectSchema.path('startDate').validate(async function (date) {
   if (date.toLocaleString() >= new Date().toLocaleString()) return;
@@ -94,7 +102,8 @@ projectSchema.pre(/^find/, function (next) {
 projectSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'client manager team',
-    select: '-__v -createdAt -updatedAt',
+    select:
+      '-__v -createdAt -updatedAt -ratingsAverage -ratingsQuantity -price',
   });
 
   next();

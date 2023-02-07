@@ -14,12 +14,12 @@ const limitFieldsByRole = asyncHandler(async (req, res, next) => {
       description,
       client: user,
     };
-  } else if (user === project?.client._id.toLocaleString()) {
+  } else if (user === project?.client._id.toString()) {
     req.body = {
       name,
       description,
     };
-  } else if (user === project?.manager._id.toLocaleString()) {
+  } else if (user === project?.manager._id.toString()) {
     req.body = {
       status: 'in-progress',
       team,
@@ -54,7 +54,7 @@ const cancelProject = asyncHandler(async (req, res, next) => {
 const createProject = controllerHandler.createOne(Project);
 const getProjects = controllerHandler.getAll(Project);
 const getProject = controllerHandler.getOne(Project, {
-  path: 'client manager team',
+  path: 'client manager team tasks',
 });
 const updateProject = controllerHandler.updateOne(Project);
 const deleteProject = controllerHandler.deleteOne(Project);

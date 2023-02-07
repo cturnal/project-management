@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../middleware/authMiddleware');
+const reviewRoutes = require('./reviewRoutes');
 
 const {
   loginUser,
@@ -30,6 +31,8 @@ router.get('/logout', logoutUser);
 
 // user should be authenticated
 router.use(authMiddleware);
+router.use('/:employeeId/reviews', reviewRoutes);
+
 router.get('/my-profile', getMyProfile, getUser);
 router.patch('/update-profile', uploadUserPhoto, updateProfile, updateUser);
 router.patch('/update-password', updatePassword);

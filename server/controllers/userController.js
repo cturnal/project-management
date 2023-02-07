@@ -50,7 +50,9 @@ const updateProfile = (req, res, next) => {
 
 const createUser = controllerHandler.createOne(User);
 const getUsers = controllerHandler.getAll(User);
-const getUser = controllerHandler.getOne(User);
+const getUser = controllerHandler.getOne(User, {
+  path: 'reviews',
+});
 const updateUser = controllerHandler.updateOne(User);
 const deleteUser = controllerHandler.deleteOne(User);
 
