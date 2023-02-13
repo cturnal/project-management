@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+
 const asyncHandler = require('../utils/asyncHandler');
 const ErrorHandler = require('../utils/errorHandler');
 
@@ -8,7 +9,7 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-// send jwt token to a cookie
+// send jwt token to a browser cookie
 const createSendToken = (user, statusCode, req, res) => {
   const token = createToken(user._id);
   res.cookie('jwt', token, {
@@ -24,6 +25,7 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
+// login user
 const loginUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password)
@@ -37,12 +39,14 @@ const loginUser = asyncHandler(async (req, res, next) => {
   createSendToken(user, 200, req, res);
 });
 
+// signup user
 const signupUser = asyncHandler(async (req, res) => {
   const { name, email, password, passwordConfirm } = req.body;
   const user = await User.create({ name, email, password, passwordConfirm });
   createSendToken(user, 201, req, res);
 });
 
+// logout user
 const logoutUser = (req, res) => {
   res.cookie('jwt', 'logout', {
     expires: new Date(Date.now() + 10 * 1000),
@@ -51,20 +55,16 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: 'logout successfully' });
 };
 
+// user role page restriction
 const restrictUser = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      next(
-        new ErrorHandler(
-          'You do not have permission to perform this action',
-          403
-        )
-      );
-    }
+    if (!roles.includes(req.user.role))
+      return next(new ErrorHandler('Not Authorized', 403));
     next();
   };
 };
 
+// user change password
 const updatePassword = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
   if (!(await user.checkPassword(req.body.password, user.password))) {

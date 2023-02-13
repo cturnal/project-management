@@ -13,8 +13,15 @@ const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 
+process.on('uncaughtException', (error) => {
+  console.log('UNCAUGHT EXCEPTION!, Shutting down');
+  console.log(error.name, error.message);
+  process.exit(1);
+});
+
 // express app
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 // middleware
 app.use(express.json());
@@ -35,15 +42,18 @@ app.all('*', (req, res, next) => {
 
 app.use(errorMiddleware);
 
-// database and server
+// server and database
+
+const server = app.listen(PORT, () =>
+  console.log(`Server start listening on port ${PORT}`)
+);
 mongoose.set('strictQuery', false);
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    app.listen(process.env.PORT, () =>
-      console.log(
-        `Database Connected and Server start listening on port ${process.env.PORT}`
-      )
-    );
-  })
-  .catch((error) => console.log(error));
+mongoose.connect(process.env.MONGO_URI).then(() => {
+  console.log(`Database Connected`);
+});
+
+process.on('unhandledRejection', (error) => {
+  console.log('UNHANDLED REJECTION!, Shutting down');
+  console.log(error.name, error.message);
+  server.close(() => process.exit(1));
+});

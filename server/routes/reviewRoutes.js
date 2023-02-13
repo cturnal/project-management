@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router({ mergeParams: true });
 
-const authHandler = require('../middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const {
   createReview,
@@ -11,11 +11,16 @@ const {
   updateReview,
   deleteReview,
   setEmployeeUserIds,
+  authorizedUser,
 } = require('../controllers/reviewController');
 
-router.use(authHandler);
+router.use(authMiddleware);
 
 router.route('/').get(getReviews).post(setEmployeeUserIds, createReview);
-router.route('/:id').get(getReview).patch(updateReview).delete(deleteReview);
+router
+  .route('/:id')
+  .get(getReview)
+  .patch(authorizedUser, updateReview)
+  .delete(deleteReview);
 
 module.exports = router;

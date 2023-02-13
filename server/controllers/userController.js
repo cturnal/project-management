@@ -1,9 +1,10 @@
 const User = require('../models/userModel');
-const asyncHandler = require('../utils/asyncHandler');
+
 const controllerHandler = require('../utils/controllerHandler');
 const ErrorHandler = require('../utils/errorHandler');
 const multer = require('multer');
 
+//  upload single image feature
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
@@ -29,11 +30,13 @@ const upload = multer({
 
 const uploadUserPhoto = upload.single('photo');
 
+// get single profile using my-profile endpoint
 const getMyProfile = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
+// update user profile
 const updateProfile = (req, res, next) => {
   const { name, email } = req.body;
   req.params.id = req.user.id;
@@ -48,6 +51,7 @@ const updateProfile = (req, res, next) => {
   next();
 };
 
+// user CRUD features
 const createUser = controllerHandler.createOne(User);
 const getUsers = controllerHandler.getAll(User);
 const getUser = controllerHandler.getOne(User, {

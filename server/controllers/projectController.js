@@ -1,12 +1,14 @@
 const Project = require('../models/projectModel');
+
 const asyncHandler = require('../utils/asyncHandler');
 const controllerHandler = require('../utils/controllerHandler');
 const ErrorHandler = require('../utils/errorHandler');
 
+// limit the create and update of project depends on roles
 const limitFieldsByRole = asyncHandler(async (req, res, next) => {
   const project = await Project.findById(req.params.id);
   const { role, id: user } = req.user;
-  const { name, description, team, startDate, endDate } = req.body;
+  const { name, description, team, startDate, endDate, manager } = req.body;
 
   if (!project && role === 'client') {
     req.body = {
@@ -14,10 +16,14 @@ const limitFieldsByRole = asyncHandler(async (req, res, next) => {
       description,
       client: user,
     };
-  } else if (user === project?.client._id.toString()) {
+  } else if (
+    user === project?.client._id.toString() &&
+    project.status === 'pending'
+  ) {
     req.body = {
       name,
       description,
+      manager,
     };
   } else if (user === project?.manager._id.toString()) {
     req.body = {
@@ -33,6 +39,7 @@ const limitFieldsByRole = asyncHandler(async (req, res, next) => {
   return next();
 });
 
+// client canceling the project
 const cancelProject = asyncHandler(async (req, res, next) => {
   const proj = await Project.findById(req.params.id);
   const user = req.user.id;
@@ -51,6 +58,7 @@ const cancelProject = asyncHandler(async (req, res, next) => {
   });
 });
 
+// CRUD features for project
 const createProject = controllerHandler.createOne(Project);
 const getProjects = controllerHandler.getAll(Project);
 const getProject = controllerHandler.getOne(Project, {

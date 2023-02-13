@@ -3,6 +3,7 @@ const User = require('../models/userModel');
 
 const asyncHandler = require('../utils/asyncHandler');
 
+// check if user is authenticated
 const authMiddleware = asyncHandler(async (req, res, next) => {
   let token;
   const bearerToken = req.headers.authorization;

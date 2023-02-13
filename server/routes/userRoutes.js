@@ -37,7 +37,7 @@ router.get('/my-profile', getMyProfile, getUser);
 router.patch('/update-profile', uploadUserPhoto, updateProfile, updateUser);
 router.patch('/update-password', updatePassword);
 
-// router.use(restrictUser('admin'));
+router.use(restrictUser('admin'));
 
 // users crud routes
 router.route('/').get(getUsers).post(createUser);
