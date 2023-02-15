@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
-
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -43,6 +42,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['client', 'developer', 'manager'],
       required: true,
+      default: 'developer',
     },
     ratingsAverage: {
       type: Number,
