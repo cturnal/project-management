@@ -1,20 +1,26 @@
 import { Outlet } from 'react-router-dom';
+import { Box, Flex } from '@chakra-ui/react';
+
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import { Box, Container, Flex } from '@chakra-ui/react';
 
 const RootLayout = () => {
+  const user = true;
   return (
-    <Flex bg='gray.50' minHeight='100vh' minWidth='100vw'>
-      {/* <Box as='aside' bg='gray.50' minHeight='100vh' minWidth='250px'>
-        <Sidebar />
-      </Box> */}
-
-      <Box as='main' width='100%'>
-        <Navbar />
-        <Outlet />
-      </Box>
-    </Flex>
+    <>
+      <Flex
+        bg='gray.100'
+        minHeight='100vh'
+        minWidth='100vw'
+        position={{ base: 'relative', md: 'static' }}
+      >
+        {user ? <Sidebar /> : null}
+        <Box as='main' width='100%'>
+          <Navbar />
+          <Outlet />
+        </Box>
+      </Flex>
+    </>
   );
 };
 

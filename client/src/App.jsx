@@ -14,17 +14,13 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NotFound from './pages/NotFound';
+import Overview from './pages/Overview';
 
 const user = true;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
-      <Route
-        index
-        element={
-          !user ? <Navigate to='/login' /> : <Navigate to='/dashboard' />
-        }
-      />
+      <Route index element={user ? <Overview /> : <Navigate to='/login' />} />
 
       <Route
         path='/dashboard'
