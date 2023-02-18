@@ -15,6 +15,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NotFound from './pages/NotFound';
 import Overview from './pages/Overview';
+import Projects from './pages/Projects';
+import Agents from './pages/Agents';
+import Profile from './pages/Profile';
 
 const user = true;
 const router = createBrowserRouter(
@@ -25,6 +28,18 @@ const router = createBrowserRouter(
       <Route
         path='/dashboard'
         element={user ? <Dashboard /> : <Navigate to='/login' />}
+      />
+      <Route
+        path='/projects'
+        element={user ? <Projects /> : <Navigate to='/login' />}
+      />
+      <Route
+        path='/agents'
+        element={user ? <Agents /> : <Navigate to='/login' />}
+      />
+      <Route
+        path='/profile'
+        element={user ? <Profile /> : <Navigate to='/login' />}
       />
       <Route
         path='/login'

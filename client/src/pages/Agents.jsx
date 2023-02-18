@@ -1,6 +1,5 @@
 import {
   Container,
-  Heading,
   Tab,
   TabList,
   TabPanel,
@@ -8,56 +7,25 @@ import {
   Tabs,
   Icon,
 } from '@chakra-ui/react';
-import { FaFolder, FaUserTie, FaUsers, FaUser } from 'react-icons/fa';
+import { FaUserTie, FaUsers } from 'react-icons/fa';
 
-const managerTabs = [
+const agentsTab = [
   {
-    name: 'My Projects',
-    icon: FaFolder,
+    name: 'Managers',
+    icon: FaUserTie,
   },
   {
-    name: 'My Developers',
-    icon: FaUsers,
-  },
-  {
-    name: 'My Clients',
-    icon: FaUser,
-  },
-];
-
-const developerTabs = [
-  {
-    name: 'My Tasks',
-    icon: FaFolder,
-  },
-  {
-    name: 'My Managers',
+    name: 'Developers',
     icon: FaUsers,
   },
 ];
 
-const clientTabs = [
-  {
-    name: 'My Projects',
-    icon: FaFolder,
-  },
-  {
-    name: 'My Managers',
-    icon: FaUsers,
-  },
-];
-
-function Dashboard() {
-  const role = 'client';
+function Agents() {
   return (
     <Container>
       <Tabs size='md' isFitted>
         <TabList>
-          {(
-            (role === 'manager' && managerTabs) ||
-            (role === 'developer' && developerTabs) ||
-            (role === 'client' && clientTabs)
-          ).map((tab) => (
+          {agentsTab.map((tab) => (
             <Tab
               key={tab.name}
               flexDirection={{ base: 'column', sm: 'row' }}
@@ -87,4 +55,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Agents;

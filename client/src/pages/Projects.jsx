@@ -1,6 +1,5 @@
 import {
   Container,
-  Heading,
   Tab,
   TabList,
   TabPanel,
@@ -8,56 +7,29 @@ import {
   Tabs,
   Icon,
 } from '@chakra-ui/react';
-import { FaFolder, FaUserTie, FaUsers, FaUser } from 'react-icons/fa';
+import { CheckIcon, ArrowUpIcon, RepeatClockIcon } from '@chakra-ui/icons';
 
-const managerTabs = [
+const projectsTab = [
   {
-    name: 'My Projects',
-    icon: FaFolder,
+    name: 'Completed',
+    icon: CheckIcon,
   },
   {
-    name: 'My Developers',
-    icon: FaUsers,
+    name: 'In-progress',
+    icon: ArrowUpIcon,
   },
   {
-    name: 'My Clients',
-    icon: FaUser,
+    name: 'In-que',
+    icon: RepeatClockIcon,
   },
 ];
 
-const developerTabs = [
-  {
-    name: 'My Tasks',
-    icon: FaFolder,
-  },
-  {
-    name: 'My Managers',
-    icon: FaUsers,
-  },
-];
-
-const clientTabs = [
-  {
-    name: 'My Projects',
-    icon: FaFolder,
-  },
-  {
-    name: 'My Managers',
-    icon: FaUsers,
-  },
-];
-
-function Dashboard() {
-  const role = 'client';
+function Projects() {
   return (
     <Container>
       <Tabs size='md' isFitted>
         <TabList>
-          {(
-            (role === 'manager' && managerTabs) ||
-            (role === 'developer' && developerTabs) ||
-            (role === 'client' && clientTabs)
-          ).map((tab) => (
+          {projectsTab.map((tab) => (
             <Tab
               key={tab.name}
               flexDirection={{ base: 'column', sm: 'row' }}
@@ -87,4 +59,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Projects;

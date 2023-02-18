@@ -26,7 +26,7 @@ const dashboardLinks = [
     name: 'Projects',
   },
   {
-    url: '/users',
+    url: '/agents',
     icon: AtSignIcon,
     name: 'Agents',
   },
