@@ -26,7 +26,7 @@ function Login() {
       <form>
         <InputGroup my='4'>
           <InputLeftAddon children={<EmailIcon />} />
-          <Input type='tel' placeholder='Email' />
+          <Input type='email' placeholder='Email' />
         </InputGroup>
 
         <InputGroup>
