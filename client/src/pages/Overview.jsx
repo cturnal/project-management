@@ -40,7 +40,7 @@ function Overview() {
               flexDirection={{ base: 'column', sm: 'row' }}
               roundedTop='10'
               gap={1}
-              px={{ base: '2', sm: '4' }}
+              px={{ base: '1', sm: '4' }}
               fontSize={{ base: 11, sm: 12, md: 14 }}
               _selected={{
                 bg: '#3b5998',

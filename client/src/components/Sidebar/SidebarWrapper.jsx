@@ -9,7 +9,6 @@ const SidebarWrapper = ({ children }) => {
     <>
       <Flex as='aside'>
         <Box
-          height='100vh'
           width='230px'
           left={isToggle ? '0' : { base: '-300px', md: '0' }}
           position={{ base: 'absolute', md: 'static' }}

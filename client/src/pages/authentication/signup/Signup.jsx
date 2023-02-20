@@ -25,26 +25,26 @@ function Signup() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   return (
-    <Container shadow='md' bg='white' p='6' m='auto' rounded='10' w='90vw'>
+    <Container>
       <Flex gap='2'>
         <FaUserPlus size='35' />
-        <Heading mb='8' size='lg'>
+        <Heading mb='8' size='md'>
           Signup
         </Heading>
       </Flex>
       <form>
-        <InputGroup my='4'>
-          <InputLeftAddon children={<InfoIcon />} />
+        <InputGroup my='4' bg='white' shadow='sm' rounded={10}>
+          <InputLeftAddon children={<InfoIcon />} bg='#3b5998' color='white' />
           <Input type='text' placeholder='Full Name' />
         </InputGroup>
 
-        <InputGroup my='4'>
-          <InputLeftAddon children={<EmailIcon />} />
+        <InputGroup my='4' bg='white' shadow='sm' rounded={10}>
+          <InputLeftAddon children={<EmailIcon />} bg='#3b5998' color='white' />
           <Input type='email' placeholder='Email' />
         </InputGroup>
 
-        <InputGroup my='4'>
-          <InputLeftAddon children={<LockIcon />} />
+        <InputGroup my='4' bg='white' shadow='sm' rounded={10}>
+          <InputLeftAddon children={<LockIcon />} bg='#3b5998' color='white' />
           <Input type={show ? 'text' : 'password'} placeholder='password' />
           <InputRightElement width='4.5rem'>
             <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -53,15 +53,19 @@ function Signup() {
           </InputRightElement>
         </InputGroup>
 
-        <InputGroup my='4'>
-          <InputLeftAddon children={<LockIcon />} />
+        <InputGroup my='4' bg='white' shadow='sm' rounded={10}>
+          <InputLeftAddon children={<LockIcon />} bg='#3b5998' color='white' />
           <Input
             type={show ? 'text' : 'password'}
             placeholder='Confirm Password'
           />
         </InputGroup>
-        <InputGroup my='4'>
-          <InputLeftAddon children={<AtSignIcon />} />
+        <InputGroup my='4' bg='white' shadow='sm' rounded={10}>
+          <InputLeftAddon
+            children={<AtSignIcon />}
+            bg='#3b5998'
+            color='white'
+          />
           <Select placeholder='User Role' roundedLeft='0'>
             <option value='developer'>Developer</option>
             <option value='client'>Client</option>

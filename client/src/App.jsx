@@ -11,15 +11,15 @@ import RootLayout from './layout/RootLayout';
 
 // pages
 import Dashboard from './pages/Dashboard';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Login from './pages/authentication/login';
+import Signup from './pages/authentication/signup';
 import NotFound from './pages/NotFound';
 import Overview from './pages/Overview';
 import Projects from './pages/Projects';
 import Agents from './pages/Agents';
 import Profile from './pages/Profile';
 
-const user = true;
+const user = false;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>

@@ -5,7 +5,7 @@ import NavMenu from './NavMenu';
 import NavLogo from './NavLogo';
 
 const Navbar = () => {
-  const user = true;
+  const user = false;
 
   return (
     <Flex
