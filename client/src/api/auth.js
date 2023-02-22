@@ -9,3 +9,8 @@ export const loginUser = async (email, password) => {
   });
   return data;
 };
+
+export const logoutUser = async () => {
+  const url = 'http://localhost:4000/api/users/logout';
+  await axios.get(url);
+};

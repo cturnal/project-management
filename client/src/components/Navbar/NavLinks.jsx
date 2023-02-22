@@ -43,7 +43,13 @@ const NavLinks = () => {
         >
           {navLinks.map((navLink) => (
             <Link to={navLink.url} key={navLink.name}>
-              <Button colorScheme='facebook' gap='2' size='sm' w='100px'>
+              <Button
+                colorScheme='facebook'
+                gap='2'
+                size='sm'
+                w='100px'
+                fontWeight='light'
+              >
                 <Icon as={navLink.icon} />
                 {navLink.name}
               </Button>

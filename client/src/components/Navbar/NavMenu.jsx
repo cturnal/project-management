@@ -6,10 +6,16 @@ import {
   MenuList,
   MenuItem,
   Button,
+  Icon,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { CgLogOut, CgProfile } from 'react-icons/cg';
+import { useLogout } from '../../hooks/authentication/useLogout';
+import { Link } from 'react-router-dom';
 
 const NavMenu = () => {
+  const { logout } = useLogout();
+
   return (
     <>
       <Menu minW>
@@ -24,15 +30,37 @@ const NavMenu = () => {
             size='sm'
             name='Dan Abrahmov'
             src='https://bit.ly/dan-abramov'
-            shadow='dark-lg'
           >
             <AvatarBadge boxSize='1em' bg='green.500' />
           </Avatar>
         </MenuButton>
 
-        <MenuList mt='2' shadow='md' minW>
-          <MenuItem>My Profile</MenuItem>
-          <MenuItem>Logout</MenuItem>
+        <MenuList
+          my='0'
+          py='0'
+          mx={2}
+          minW
+          border='none'
+          bg='transparent'
+          shadow='none'
+        >
+          <Link to='/profile'>
+            <MenuItem my={1} bg='#3b5998' color='white' rounded={10} gap={2}>
+              <Icon as={CgProfile} />
+              Profile
+            </MenuItem>
+          </Link>
+          <MenuItem
+            my={1}
+            bg='#3b5998'
+            color='white'
+            rounded={10}
+            gap={1}
+            onClick={() => logout()}
+          >
+            <Icon as={CgLogOut} />
+            Logout
+          </MenuItem>
         </MenuList>
       </Menu>
     </>

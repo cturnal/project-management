@@ -3,9 +3,11 @@ import { Box, Flex } from '@chakra-ui/react';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import { useAuth } from '../context/AuthContext';
 
 const RootLayout = () => {
-  const user = false;
+  const { isLoggedIn } = useAuth();
+
   return (
     <>
       <Flex
@@ -14,7 +16,7 @@ const RootLayout = () => {
         minWidth='100vw'
         position={{ base: 'relative', md: 'static' }}
       >
-        {user ? <Sidebar /> : null}
+        {isLoggedIn ? <Sidebar /> : ''}
         <Box as='main' width='100%'>
           <Navbar />
           <Outlet />

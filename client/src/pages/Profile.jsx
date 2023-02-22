@@ -17,7 +17,7 @@ import { FaSignInAlt, FaUser } from 'react-icons/fa';
 
 function Profile() {
   return (
-    <Container m='auto'>
+    <Container p='auto' m='auto'>
       <Heading mb='8' size='md'>
         YOUR ACCOUNT SETTINGS
       </Heading>
@@ -26,16 +26,11 @@ function Profile() {
           gap={4}
           m='auto'
           flexDirection={{ base: 'column', sm: 'row' }}
-          w='full'
-          alignItems='center'
-          justifyContent='center'
-          justifyItems='center'
-          textAlign='center'
-          justify='center'
+          alignItems={{ base: 'left', sm: 'center' }}
         >
           <Image
             borderRadius='full'
-            boxSize='150px'
+            boxSize='120px'
             src='https://bit.ly/dan-abramov'
             alt='Dan Abramov'
           />
@@ -52,7 +47,14 @@ function Profile() {
           <Input type='email' placeholder='Email' />
         </InputGroup>
 
-        <Button colorScheme='facebook' p='5' my='5' w='full' gap='2'>
+        <Button
+          colorScheme='facebook'
+          p='5'
+          my='5'
+          gap='2'
+          fontWeight='light'
+          w='100%'
+        >
           <FaSignInAlt /> Update Profile
         </Button>
       </form>
@@ -64,7 +66,7 @@ function Profile() {
         <InputGroup my='4' bg='white' shadow='sm' rounded={10}>
           <InputLeftAddon children={<LockIcon />} bg='#3b5998' color='white' />
           <Input type='text' placeholder='Current Password' />
-          <InputRightElement width='4.5rem'>
+          <InputRightElement>
             <Button h='1.75rem' size='sm'></Button>
           </InputRightElement>
         </InputGroup>
@@ -79,7 +81,14 @@ function Profile() {
           <Input type='text' placeholder='Confirm Password' />
         </InputGroup>
 
-        <Button colorScheme='facebook' p='5' my='5' w='full' gap='2'>
+        <Button
+          colorScheme='facebook'
+          p='5'
+          my='5'
+          gap='2'
+          fontWeight='light'
+          w='100%'
+        >
           <FaSignInAlt /> Update Password
         </Button>
       </form>

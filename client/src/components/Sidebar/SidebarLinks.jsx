@@ -3,7 +3,6 @@ import {
   ListItem,
   ListIcon,
   Flex,
-  Avatar,
   Box,
   Badge,
   Text,
@@ -17,6 +16,11 @@ const dashboardLinks = [
   {
     url: '/',
     icon: CalendarIcon,
+    name: 'Dashboard',
+  },
+  {
+    url: '/overview',
+    icon: CalendarIcon,
     name: 'Overview',
   },
 
@@ -29,11 +33,6 @@ const dashboardLinks = [
     url: '/agents',
     icon: AtSignIcon,
     name: 'Agents',
-  },
-  {
-    url: '/dashboard',
-    icon: CalendarIcon,
-    name: 'Dashboard',
   },
   {
     url: '/profile',
@@ -51,7 +50,6 @@ const SidebarLinks = () => {
       pt='20'
       bg='#3b5998'
       color='white'
-      boxShadow='dark-lg'
     >
       <Flex
         flexDirection='column'
@@ -59,10 +57,17 @@ const SidebarLinks = () => {
         alignItems='center'
         textAlign='center'
       >
-        <Avatar src='https://bit.ly/dan-abramov' size='xl' shadow='dark-lg' />
         <Box>
-          <Text fontWeight='bold'>Dan Abrahmov</Text>
-          <Badge colorScheme='blue' shadow='dark-lg' rounded='50'>
+          <Text fontWeight='bold' letterSpacing={1}>
+            Dan Abrahmov
+          </Text>
+          <Badge
+            colorScheme='blue'
+            rounded='50'
+            shadow='lg'
+            fontWeight='bold'
+            letterSpacing={1}
+          >
             Manager
           </Badge>
         </Box>
@@ -76,7 +81,7 @@ const SidebarLinks = () => {
             <Link
               as={NavLink}
               to={link.url}
-              ml='90px'
+              ml='70px'
               width='180px'
               p='12px'
               roundedLeft='50'
@@ -84,14 +89,11 @@ const SidebarLinks = () => {
               _activeLink={{
                 bg: 'gray.100',
                 color: 'black',
-                textDecoration: 'none',
-                shadow: 'dark-lg',
+                zIndex: '4',
               }}
               _hover={{
                 bg: 'gray.100',
                 color: 'black',
-                textDecoration: 'none',
-                ml: '80px',
               }}
             >
               <ListIcon as={link.icon} />

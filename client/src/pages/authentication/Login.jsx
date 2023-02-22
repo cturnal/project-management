@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { FaSignInAlt, FaUser } from 'react-icons/fa';
 import { EmailIcon, LockIcon } from '@chakra-ui/icons';
 import {
   Input,
@@ -5,51 +9,40 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightElement,
-  Spinner,
-  FormErrorMessage,
-  FormControl,
-  FormHelperText,
-  Text,
-  useToast,
+  Container,
+  Heading,
+  Flex,
 } from '@chakra-ui/react';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { FaSignInAlt } from 'react-icons/fa';
-import { useLogin } from '../../../hooks/authentication/useLogin';
-import useToggle from '../../../hooks/useToggle';
 
-function LoginForm() {
+import useForm from '../../hooks/useForm';
+import useToggle from '../../hooks/useToggle';
+import { useLogin } from '../../hooks/authentication/useLogin';
+import { useAuth } from '../../context/AuthContext';
+
+const Login = () => {
+  const [values, handleChange] = useForm({});
   const { isToggle, toggle } = useToggle();
-  const [values, setValues] = useState('');
-  const { login, loading, error } = useLogin();
-  const toast = useToast();
+  const { loading, login } = useLogin();
+  const { isLoggedIn } = useAuth();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (error) {
-      toast({
-        status: 'error',
-        title: error,
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  }, [error]);
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+    if (isLoggedIn) navigate('/');
+  }, [isLoggedIn, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await login(values.email, values.password);
   };
 
   return (
-    <>
+    <Container>
+      <Flex gap='2'>
+        <Heading mb='8' size='md'>
+          Login
+        </Heading>
+      </Flex>
       <form onSubmit={handleSubmit}>
         <InputGroup my='4' bg='white' shadow='sm' rounded={10}>
           <InputLeftAddon children={<EmailIcon />} bg='#3b5998' color='white' />
@@ -59,7 +52,6 @@ function LoginForm() {
             value={values.email || ''}
             onChange={handleChange}
             placeholder='Email'
-            errorBorderColor={error ? 'crimson' : ''}
           />
         </InputGroup>
 
@@ -87,12 +79,13 @@ function LoginForm() {
           w='full'
           gap='2'
           isLoading={loading ? true : false}
+          fontWeight='normal'
         >
           <FaSignInAlt /> login
         </Button>
       </form>
-    </>
+    </Container>
   );
-}
+};
 
-export default LoginForm;
+export default Login;
