@@ -63,7 +63,7 @@ const SidebarLinks = () => {
           </Text>
           <Badge
             colorScheme='blue'
-            rounded='50'
+            rounded={5}
             shadow='lg'
             fontWeight='bold'
             letterSpacing={1}
@@ -81,10 +81,10 @@ const SidebarLinks = () => {
             <Link
               as={NavLink}
               to={link.url}
-              ml='70px'
+              ml={{ base: '40px', md: '70px' }}
               width='180px'
               p='12px'
-              roundedLeft='50'
+              roundedLeft={10}
               display='block'
               _activeLink={{
                 bg: 'gray.100',

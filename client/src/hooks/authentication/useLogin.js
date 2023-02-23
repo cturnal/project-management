@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
+import { redirect } from 'react-router-dom';
 import { loginUser } from '../../api/auth';
 import { useAuth } from '../../context/AuthContext';
 
@@ -24,9 +25,10 @@ export const useLogin = () => {
         position: 'top',
         duration: 2000,
         variant: 'subtle',
+        fontStyle: 'normal',
         containerStyle: {
           minW: '110px',
-          fontSize: '14px',
+          fontSize: '12px',
         },
       });
     }

@@ -12,8 +12,7 @@ const RootLayout = () => {
     <>
       <Flex
         bg='gray.100'
-        minHeight='100vh'
-        minWidth='100vw'
+        height='100dvh'
         position={{ base: 'relative', md: 'static' }}
       >
         {isLoggedIn ? <Sidebar /> : ''}

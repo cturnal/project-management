@@ -61,7 +61,7 @@ function Dashboard() {
             <Tab
               key={tab.name}
               flexDirection={{ base: 'column', sm: 'row' }}
-              roundedTop='10'
+              roundedTop={10}
               gap={1}
               px={{ base: '2', sm: '4' }}
               fontSize={{ base: 11, sm: 12, md: 14 }}
