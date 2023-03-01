@@ -18,4 +18,6 @@ export const updateProfile = async (values) => {
 
 export const updatePassword = async (values) => {
   const url = '/api/users/update-password';
+  const { data } = await axios.patch(url, values);
+  return data;
 };

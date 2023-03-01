@@ -1,25 +1,25 @@
 import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
-import { updateProfile } from '../../api/user';
+import { updatePassword } from '../../api/user';
 import { useAuth } from '../../context/AuthContext';
 
-export const useUpdateProfile = () => {
+const useUpdatePassword = () => {
   const [loading, setLoading] = useState(null);
   const toast = useToast();
   const { dispatch } = useAuth();
 
-  const update = async (values) => {
+  const update = async (values, resetForm) => {
     setLoading(true);
     try {
-      const data = await updateProfile(values);
-      localStorage.setItem('user', JSON.stringify(data?.document));
+      const data = await updatePassword(values);
+      localStorage.setItem('user', JSON.stringify(data.user));
       dispatch({
         type: 'LOGIN_USER',
-        payload: { user: data?.document },
+        payload: { user: data.user },
       });
       toast({
         status: 'success',
-        title: 'Profile Successfully Updated',
+        title: 'Password Successfully Updated',
         position: 'top',
         duration: 2000,
         variant: 'subtle',
@@ -29,6 +29,7 @@ export const useUpdateProfile = () => {
           fontSize: '12px',
         },
       });
+      resetForm();
     } catch (error) {
       toast({
         status: 'error',
@@ -45,6 +46,7 @@ export const useUpdateProfile = () => {
     }
     setLoading(false);
   };
-
   return { update, loading };
 };
+
+export default useUpdatePassword;

@@ -1,17 +1,7 @@
-import { Container, Heading, Divider } from '@chakra-ui/react';
-
-import UpdateProfileForm from './UpdateProfileForm';
+import React from 'react';
 
 function Profile() {
-  return (
-    <Container p='auto' m='auto'>
-      <Heading mb='8' size='md'>
-        YOUR ACCOUNT SETTINGS
-      </Heading>
-      <UpdateProfileForm />
-      <Divider my={5} />
-    </Container>
-  );
+  return <div>Profile</div>;
 }
 
 export default Profile;

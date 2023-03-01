@@ -13,7 +13,7 @@ const SidebarWrapper = ({ children }) => {
           width='220px'
           position={{ base: 'fixed', md: 'static' }}
           left={
-            (!isToggle ? { base: 0 } : { base: '-300px' }) ||
+            (!isToggle ? { base: '-300px' } : { base: 0 }) ||
             (isToggle ? { base: 0 } : { base: '-300px' })
           }
           zIndex='3'
@@ -27,7 +27,7 @@ const SidebarWrapper = ({ children }) => {
           position={{ base: 'fixed', md: 'static' }}
           display={{ base: 'block', md: 'none' }}
           left={
-            (isToggle ? { base: '5px' } : { base: '225px' }) ||
+            (isToggle ? { base: '225px' } : { base: '5px' }) ||
             (!isToggle ? { base: '5px' } : { base: '-300px' })
           }
           top='50px'
@@ -36,7 +36,7 @@ const SidebarWrapper = ({ children }) => {
           transition='ease 0.2s'
           zIndex='3'
         >
-          {isToggle ? <ArrowRightIcon /> : <ArrowLeftIcon />}
+          {isToggle ? <ArrowLeftIcon /> : <ArrowRightIcon />}
         </Button>
       </Flex>
     </>

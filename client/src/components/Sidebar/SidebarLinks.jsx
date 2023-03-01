@@ -12,6 +12,10 @@ import {
 import { CalendarIcon, EditIcon, AtSignIcon } from '@chakra-ui/icons';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { AiFillSetting } from 'react-icons/ai';
+import { FaUserTie } from 'react-icons/fa';
+import { ImProfile } from 'react-icons/im';
+import { MdOutlineLeaderboard } from 'react-icons/md';
 
 const dashboardLinks = [
   {
@@ -21,7 +25,7 @@ const dashboardLinks = [
   },
   {
     url: '/overview',
-    icon: CalendarIcon,
+    icon: MdOutlineLeaderboard,
     name: 'Overview',
   },
 
@@ -32,13 +36,18 @@ const dashboardLinks = [
   },
   {
     url: '/agents',
-    icon: AtSignIcon,
+    icon: FaUserTie,
     name: 'Agents',
   },
   {
     url: '/profile',
-    icon: AtSignIcon,
+    icon: ImProfile,
     name: 'Profile',
+  },
+  {
+    url: '/settings',
+    icon: AiFillSetting,
+    name: 'Settings',
   },
 ];
 
@@ -49,13 +58,13 @@ const SidebarLinks = () => {
       flexDirection='column'
       alignItems='center'
       h='100%'
-      pt='20'
+      pt='10'
       bg='#3b5998'
       color='white'
     >
       <Flex
         flexDirection='column'
-        mb='10'
+        mb='5'
         alignItems='center'
         textAlign='center'
       >
@@ -75,17 +84,18 @@ const SidebarLinks = () => {
         </Box>
       </Flex>
 
-      <Divider w='150px' mb='10' />
+      <Divider w='150px' mb='5' />
 
       <List>
         {dashboardLinks.map((link) => (
-          <ListItem key={link.name} p='1'>
+          <ListItem key={link.name}>
             <Link
               as={NavLink}
               to={link.url}
               ml={{ base: '40px', md: '70px' }}
               width='180px'
-              p='12px'
+              p='10px'
+              my='4px'
               roundedLeft={10}
               display='block'
               _activeLink={{
@@ -98,7 +108,7 @@ const SidebarLinks = () => {
                 color: 'black',
               }}
             >
-              <ListIcon as={link.icon} />
+              <ListIcon as={link.icon} h='23px' />
               {link.name}
             </Link>
           </ListItem>

@@ -38,8 +38,6 @@ const getMyProfile = (req, res, next) => {
 
 // update user profile
 const updateProfile = (req, res, next) => {
-  console.log(req.file);
-  console.log(req.body);
   const { name, email } = req.body;
   req.params.id = req.user.id;
   if (req.user.role !== 'admin') {
@@ -48,6 +46,8 @@ const updateProfile = (req, res, next) => {
       email,
     };
   }
+  console.log(req.body);
+  console.log(req.file);
   if (req.file) req.body.photo = req.file.filename;
 
   next();

@@ -19,6 +19,7 @@ import Projects from './pages/Projects';
 import Agents from './pages/Agents';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
+import Settings from './pages/settings';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
         <Route path='/projects' element={<Projects />} />
         <Route path='/agents' element={<Agents />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/settings' element={<Settings />} />
       </Route>
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />

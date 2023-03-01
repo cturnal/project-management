@@ -13,11 +13,15 @@ const useForm = (initialValues) => {
   };
 
   const handleFile = (event) => {
-    console.log(event.target.files[0]);
-    setFile(event.target.files[0]);
+    const { files } = event.target;
+    setFile(files[0]);
   };
 
-  return [values, handleChange, file, handleFile];
+  const resetForm = () => {
+    setValues(initialValues);
+  };
+
+  return { values, handleChange, file, handleFile, resetForm };
 };
 
 export default useForm;

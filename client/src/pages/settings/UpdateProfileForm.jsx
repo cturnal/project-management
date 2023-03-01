@@ -7,7 +7,6 @@ import {
   InputLeftAddon,
   Avatar,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { FaSignInAlt } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import useForm from '../../hooks/useForm';
@@ -15,7 +14,7 @@ import { useUpdateProfile } from '../../hooks/user/useUpdateProfile';
 
 function UpdateProfileForm() {
   const { user } = useAuth();
-  const [values, handleChange, file, handleFile] = useForm({
+  const { values, handleChange, file, handleFile, resetFile } = useForm({
     name: user.name,
     email: user.email,
   });
@@ -27,7 +26,8 @@ function UpdateProfileForm() {
     const form = new FormData();
     form.append('name', values.name);
     form.append('email', values.email);
-    form.append('photo', file);
+    if (file) form.append('photo', file);
+
     await update(form);
   };
 

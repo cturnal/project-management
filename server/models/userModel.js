@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['client', 'developer', 'manager'],
+      enum: ['client', 'developer', 'manager', 'admin'],
       required: true,
     },
     ratingsAverage: {
