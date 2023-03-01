@@ -12,10 +12,11 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { CgLogOut, CgProfile } from 'react-icons/cg';
 import { useLogout } from '../../hooks/authentication/useLogout';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const NavMenu = () => {
   const { logout } = useLogout();
-
+  const { user } = useAuth();
   return (
     <>
       <Menu minW>
@@ -28,8 +29,8 @@ const NavMenu = () => {
         >
           <Avatar
             size='sm'
-            name='Dan Abrahmov'
-            src='https://bit.ly/dan-abramov'
+            src={'/images/users/' + user.photo}
+            name={user.name}
           >
             <AvatarBadge boxSize='1em' bg='green.500' />
           </Avatar>

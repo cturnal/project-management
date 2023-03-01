@@ -33,7 +33,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(values.email, values.password);
+    await login(values);
   };
 
   return (

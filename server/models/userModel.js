@@ -42,7 +42,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['client', 'developer', 'manager'],
       required: true,
-      default: 'developer',
     },
     ratingsAverage: {
       type: Number,

@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { CalendarIcon, EditIcon, AtSignIcon } from '@chakra-ui/icons';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const dashboardLinks = [
   {
@@ -42,6 +43,7 @@ const dashboardLinks = [
 ];
 
 const SidebarLinks = () => {
+  const { user } = useAuth();
   return (
     <Flex
       flexDirection='column'
@@ -59,7 +61,7 @@ const SidebarLinks = () => {
       >
         <Box>
           <Text fontWeight='bold' letterSpacing={1}>
-            Dan Abrahmov
+            {user.name}
           </Text>
           <Badge
             colorScheme='blue'
@@ -68,7 +70,7 @@ const SidebarLinks = () => {
             fontWeight='bold'
             letterSpacing={1}
           >
-            Manager
+            {user.role}
           </Badge>
         </Box>
       </Flex>

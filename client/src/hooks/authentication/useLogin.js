@@ -1,6 +1,5 @@
 import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
-import { redirect } from 'react-router-dom';
 import { loginUser } from '../../api/auth';
 import { useAuth } from '../../context/AuthContext';
 
@@ -9,11 +8,13 @@ export const useLogin = () => {
   const toast = useToast();
   const { dispatch } = useAuth();
 
-  const login = async (email, password) => {
+  const login = async (values) => {
     setLoading(true);
     try {
-      const data = await loginUser(email, password);
-      localStorage.setItem('user', JSON.stringify(data));
+      const data = await loginUser(values);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('token', JSON.stringify(data.token));
+
       dispatch({
         type: 'LOGIN_USER',
         payload: data,

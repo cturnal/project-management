@@ -9,12 +9,11 @@ import {
   Input,
   Flex,
   Button,
-  Box,
   Select,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import { FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import { FaSignInAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import useToggle from '../../hooks/useToggle';
 import { useAuth } from '../../context/AuthContext';
@@ -35,13 +34,7 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(
-      values.name,
-      values.email,
-      values.password,
-      values.passwordConfirm,
-      values.role
-    );
+    await signup(values);
   };
   return (
     <Container>

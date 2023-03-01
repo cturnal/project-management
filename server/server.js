@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const errorMiddleware = require('./middleware/errorMiddleware');
 const ErrorHandler = require('./utils/errorHandler');
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
 app.use('/api/users', userRoutes);

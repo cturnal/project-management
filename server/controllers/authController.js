@@ -41,8 +41,14 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
 // signup user
 const signupUser = asyncHandler(async (req, res) => {
-  const { name, email, password, passwordConfirm } = req.body;
-  const user = await User.create({ name, email, password, passwordConfirm });
+  const { name, email, password, passwordConfirm, role } = req.body;
+  const user = await User.create({
+    name,
+    email,
+    password,
+    passwordConfirm,
+    role,
+  });
   createSendToken(user, 201, req, res);
 });
 

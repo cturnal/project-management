@@ -7,7 +7,7 @@ const multer = require('multer');
 //  upload single image feature
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'public/images/users');
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split('/')[1];
@@ -16,7 +16,7 @@ const multerStorage = multer.diskStorage({
 });
 
 const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
+  if (file.mimetype.startsWith('image/')) {
     cb(null, true);
   } else {
     cb(new ErrorHandler('Not an image! Please upload only image', 400), false);
@@ -38,6 +38,8 @@ const getMyProfile = (req, res, next) => {
 
 // update user profile
 const updateProfile = (req, res, next) => {
+  console.log(req.file);
+  console.log(req.body);
   const { name, email } = req.body;
   req.params.id = req.user.id;
   if (req.user.role !== 'admin') {

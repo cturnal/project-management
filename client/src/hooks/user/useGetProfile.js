@@ -1,24 +1,16 @@
 import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
-import { redirect } from 'react-router-dom';
-import { signupUser } from '../../api/auth';
-import { useAuth } from '../../context/AuthContext';
+import { getProfile } from '../../api/user';
 
-export const useSignup = () => {
+export const useUpdateProfile = () => {
   const [loading, setLoading] = useState(null);
   const toast = useToast();
-  const { dispatch } = useAuth();
 
-  const signup = async (values) => {
+  const profile = async (values) => {
     setLoading(true);
     try {
-      const data = await signupUser(values);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('token', JSON.stringify(data.token));
-      dispatch({
-        type: 'LOGIN_USER',
-        payload: data,
-      });
+      const data = await getProfile();
+      localStorage.setItem('user', JSON.stringify(data.document));
     } catch (error) {
       toast({
         status: 'error',
@@ -36,5 +28,5 @@ export const useSignup = () => {
     setLoading(false);
   };
 
-  return { signup, loading };
+  return { profile, loading };
 };
