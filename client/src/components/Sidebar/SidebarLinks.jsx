@@ -92,7 +92,7 @@ const SidebarLinks = () => {
             <Link
               as={NavLink}
               to={link.url}
-              ml={{ base: '40px', md: '70px' }}
+              ml='40px'
               width='180px'
               p='10px'
               my='4px'

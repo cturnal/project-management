@@ -11,15 +11,16 @@ import RootLayout from './layout/RootLayout';
 
 // pages
 import Dashboard from './pages/Dashboard';
-import Login from './pages/authentication/Login';
-import Signup from './pages/authentication/signup';
+import Login from './pages/Authentication/Login';
+import Signup from './pages/Authentication/signup';
 import NotFound from './pages/NotFound';
 import Overview from './pages/Overview';
 import Projects from './pages/Projects';
 import Agents from './pages/Agents';
 import Profile from './pages/Profile';
-import PrivateRoute from './components/PrivateRoute';
-import Settings from './pages/settings';
+import Settings from './pages/Settings';
+
+import PrivateRoute from './pages/PrivateRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

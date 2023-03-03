@@ -4,6 +4,7 @@ const router = express.Router();
 
 const authMiddleware = require('../middleware/authMiddleware');
 const taskRoutes = require('./taskRoutes');
+const reviewRoutes = require('./reviewRoutes');
 
 const {
   createProject,
@@ -13,14 +14,15 @@ const {
   deleteProject,
   cancelProject,
   limitFieldsByRole,
+  topProjects,
 } = require('../controllers/projectController');
 const { restrictUser } = require('../controllers/authController');
-
 router.use(authMiddleware);
 
-router.use('/:projectId/tasks', taskRoutes);
-
 router.delete('/:id/cancel', restrictUser('client'), cancelProject);
+router.use('/:projectId/reviews', reviewRoutes);
+router.use('/:projectId/tasks', taskRoutes);
+router.route('/top-5-projects').get(topProjects, getProjects);
 
 router
   .route('/')

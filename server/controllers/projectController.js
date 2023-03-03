@@ -58,6 +58,13 @@ const cancelProject = asyncHandler(async (req, res, next) => {
   });
 });
 
+const topProjects = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.status = 'in-progress';
+  req.query.sort = '-ratingsAverage';
+  next();
+};
+
 // CRUD features for project
 const createProject = controllerHandler.createOne(Project);
 const getProjects = controllerHandler.getAll(Project);
@@ -75,4 +82,5 @@ module.exports = {
   deleteProject,
   cancelProject,
   limitFieldsByRole,
+  topProjects,
 };

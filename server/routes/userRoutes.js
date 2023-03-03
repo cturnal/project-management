@@ -31,7 +31,9 @@ router.get('/logout', logoutUser);
 
 // user should be authenticated
 router.use(authMiddleware);
+
 router.use('/:employeeId/reviews', reviewRoutes);
+// router.route('/top-5-').get(topProjects, getProjects);
 
 router.get('/my-profile', getMyProfile, getUser);
 router.patch('/update-profile', uploadUserPhoto, updateProfile, updateUser);

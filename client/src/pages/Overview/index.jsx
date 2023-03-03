@@ -7,8 +7,11 @@ import {
   TabPanels,
   Tabs,
   Icon,
+  Flex,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { FaFolder, FaUserTie, FaUsers, FaUser } from 'react-icons/fa';
+import Top5Projects from './Top5Projects';
 
 const overviewTabs = [
   {
@@ -30,9 +33,10 @@ const overviewTabs = [
 ];
 
 function Overview() {
+  const isFitted = useBreakpointValue({ base: true, sm: true, md: false });
   return (
-    <Container>
-      <Tabs size='md' isFitted>
+    <>
+      <Tabs size='md' isFitted={isFitted} mx={{ base: '5', md: '40px' }}>
         <TabList>
           {overviewTabs.map((tab) => (
             <Tab
@@ -54,13 +58,15 @@ function Overview() {
         </TabList>
 
         <TabPanels>
-          <TabPanel>Top 5 Projects</TabPanel>
+          <TabPanel>
+            <Top5Projects />
+          </TabPanel>
           <TabPanel>Top 5 Managers</TabPanel>
           <TabPanel>Top 5 Developers</TabPanel>
           <TabPanel>Top 5 Client</TabPanel>
         </TabPanels>
       </Tabs>
-    </Container>
+    </>
   );
 }
 

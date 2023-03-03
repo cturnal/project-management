@@ -10,7 +10,6 @@ const SidebarWrapper = ({ children }) => {
       <Flex as='aside'>
         <Box
           height='full'
-          width='220px'
           position={{ base: 'fixed', md: 'static' }}
           left={
             (!isToggle ? { base: '-300px' } : { base: 0 }) ||
@@ -18,14 +17,13 @@ const SidebarWrapper = ({ children }) => {
           }
           zIndex='3'
           transition='ease 0.2s'
-          boxShadow='lg'
         >
           {children}
         </Box>
         <Button
           onClick={toggle}
-          position={{ base: 'fixed', md: 'static' }}
           display={{ base: 'block', md: 'none' }}
+          position={{ base: 'fixed', md: 'static' }}
           left={
             (isToggle ? { base: '225px' } : { base: '5px' }) ||
             (!isToggle ? { base: '5px' } : { base: '-300px' })
@@ -39,6 +37,14 @@ const SidebarWrapper = ({ children }) => {
           {isToggle ? <ArrowLeftIcon /> : <ArrowRightIcon />}
         </Button>
       </Flex>
+      <Box
+        height='full'
+        width={isToggle ? { base: '100%', md: 0 } : { base: 0 }}
+        position='absolute'
+        bg='black'
+        opacity='10%'
+        zIndex='2'
+      />
     </>
   );
 };

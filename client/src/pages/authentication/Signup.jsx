@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaSignInAlt } from 'react-icons/fa';
 import { AtSignIcon, EmailIcon, InfoIcon, LockIcon } from '@chakra-ui/icons';
-
 import {
   Container,
   InputGroup,
@@ -11,19 +13,15 @@ import {
   Button,
   Select,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 
-import { FaSignInAlt } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import useToggle from '../../hooks/useToggle';
 import { useAuth } from '../../context/AuthContext';
+import useToggle from '../../hooks/useToggle';
 import useForm from '../../hooks/useForm';
 import { useSignup } from '../../hooks/authentication/useSignup';
 
 function Signup() {
-  const [values, handleChange] = useForm({});
+  const { values, handleChange } = useForm({});
   const { loading, signup } = useSignup();
-
   const { isToggle, toggle } = useToggle();
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();

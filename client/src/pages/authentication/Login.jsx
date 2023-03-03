@@ -20,7 +20,7 @@ import { useLogin } from '../../hooks/authentication/useLogin';
 import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
-  const [values, handleChange] = useForm({});
+  const { values, handleChange } = useForm({});
   const { isToggle, toggle } = useToggle();
   const { loading, login } = useLogin();
   const { isLoggedIn } = useAuth();
