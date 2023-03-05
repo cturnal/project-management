@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
-import { getProjects } from '../../api/project';
-import { useProject } from '../../context/ProjectContext';
+import { getAgents } from '../../api/agent';
+import { useAgent } from '../../context/AgentContext';
 
-const useGetProjects = (value) => {
+const useGetAgents = (value) => {
   const [loading, setLoading] = useState(true);
-  const { dispatch } = useProject();
+  const { dispatch } = useAgent();
+
   let isMounted = true;
   useEffect(() => {
     if (isMounted) {
-      getProjects(value)
-        .then((projects) => {
+      getAgents(`top-5-${value}`)
+        .then((agents) => {
           dispatch({
-            type: 'GET_PROJECTS',
-            payload: projects,
+            type: `GET_${value}`,
+            payload: agents,
           });
-          console.log(projects);
+          console.log(agents);
         })
         .catch((err) => {
           if (err) console.log(err.message);
@@ -24,8 +25,9 @@ const useGetProjects = (value) => {
     return () => {
       isMounted = false;
     };
-  }, [dispatch]);
+  }, []);
+
   return { loading };
 };
 
-export default useGetProjects;
+export default useGetAgents;

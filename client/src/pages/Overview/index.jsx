@@ -9,8 +9,13 @@ import {
   Icon,
   Flex,
   useBreakpointValue,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { FaFolder, FaUserTie, FaUsers, FaUser } from 'react-icons/fa';
+import Top5Clients from './Top5Clients';
+import Top5Agents from './Top5Clients';
+import Top5Developers from './Top5Developers';
+import Top5Managers from './Top5Managers';
 import Top5Projects from './Top5Projects';
 
 const overviewTabs = [
@@ -33,18 +38,18 @@ const overviewTabs = [
 ];
 
 function Overview() {
-  const isFitted = useBreakpointValue({ base: true, sm: true, md: false });
+  const [isLargerThanMD] = useMediaQuery('(min-width: 768px)');
   return (
     <>
-      <Tabs size='md' isFitted={isFitted} mx={{ base: '5', md: '40px' }}>
+      <Tabs size='md' mx={{ base: '5', md: '40px' }}>
         <TabList>
           {overviewTabs.map((tab) => (
             <Tab
               key={tab.name}
-              flexDirection={{ base: 'column', sm: 'row' }}
+              flexWrap='wrap'
               roundedTop='10'
               gap={1}
-              px={{ base: '1', sm: '4' }}
+              px={{ base: '5px', sm: '4' }}
               fontSize={{ base: 11, sm: 12, md: 14 }}
               _selected={{
                 bg: '#3b5998',
@@ -61,9 +66,15 @@ function Overview() {
           <TabPanel>
             <Top5Projects />
           </TabPanel>
-          <TabPanel>Top 5 Managers</TabPanel>
-          <TabPanel>Top 5 Developers</TabPanel>
-          <TabPanel>Top 5 Client</TabPanel>
+          <TabPanel>
+            <Top5Managers role='managers' />
+          </TabPanel>
+          <TabPanel>
+            <Top5Developers role='developers' />
+          </TabPanel>
+          <TabPanel>
+            <Top5Clients role='clients' />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </>

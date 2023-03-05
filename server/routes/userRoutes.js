@@ -22,6 +22,7 @@ const {
   getMyProfile,
   updateProfile,
   uploadUserPhoto,
+  topAgents,
 } = require('../controllers/userController');
 
 // authentication routes
@@ -33,16 +34,19 @@ router.get('/logout', logoutUser);
 router.use(authMiddleware);
 
 router.use('/:employeeId/reviews', reviewRoutes);
-// router.route('/top-5-').get(topProjects, getProjects);
+router.route('/top-5-managers').get(topAgents('manager'), getUsers);
+router.route('/top-5-developers').get(topAgents('developer'), getUsers);
+router.route('/top-5-clients').get(topAgents('client'), getUsers);
 
 router.get('/my-profile', getMyProfile, getUser);
 router.patch('/update-profile', uploadUserPhoto, updateProfile, updateUser);
 router.patch('/update-password', updatePassword);
 
+// users crud routes
+router.route('/').get(getUsers);
 router.use(restrictUser('admin'));
 
-// users crud routes
-router.route('/').get(getUsers).post(createUser);
+router.route('/').post(createUser);
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 module.exports = router;

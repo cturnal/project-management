@@ -60,7 +60,7 @@ const cancelProject = asyncHandler(async (req, res, next) => {
 
 const topProjects = (req, res, next) => {
   req.query.limit = '5';
-  req.query.status = 'in-progress';
+  req.query.status = 'pending';
   req.query.sort = '-ratingsAverage';
   next();
 };

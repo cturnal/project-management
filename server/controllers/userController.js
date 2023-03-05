@@ -53,6 +53,15 @@ const updateProfile = (req, res, next) => {
   next();
 };
 
+const topAgents = (role) => {
+  return (req, res, next) => {
+    req.query.limit = '5';
+    req.query.role = role;
+    req.query.sort = '-ratingsAverage';
+    next();
+  };
+};
+
 // user CRUD features
 const createUser = controllerHandler.createOne(User);
 const getUsers = controllerHandler.getAll(User);
@@ -71,4 +80,5 @@ module.exports = {
   getMyProfile,
   updateProfile,
   uploadUserPhoto,
+  topAgents,
 };

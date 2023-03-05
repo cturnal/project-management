@@ -6,13 +6,16 @@ import './index.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AuthContextProvider } from './context/AuthContext';
 import { ProjectContextProvider } from './context/ProjectContext';
+import { AgentContextProvider } from './context/AgentContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ChakraProvider>
       <AuthContextProvider>
         <ProjectContextProvider>
-          <App />
+          <AgentContextProvider>
+            <App />
+          </AgentContextProvider>
         </ProjectContextProvider>
       </AuthContextProvider>
     </ChakraProvider>
