@@ -14,7 +14,6 @@ const useGetProjects = (value) => {
             type: 'GET_PROJECTS',
             payload: projects,
           });
-          console.log(projects);
         })
         .catch((err) => {
           if (err) console.log(err.message);

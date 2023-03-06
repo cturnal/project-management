@@ -1,22 +1,20 @@
 import {
-  Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Flex,
   Heading,
-  Spinner,
   Text,
 } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 import { useAgent } from '../../context/AgentContext';
 import useGetAgents from '../../hooks/agent/useGetAgents';
+import Rating from './Rating';
 
-function Top5Clients({ role }) {
-  const { loading } = useGetAgents(role);
-  const { clients } = useAgent();
-  if (loading) return <Spinner />;
+function Top5Agents({ role }) {
+  useGetAgents(role);
+  const { [role]: agents } = useAgent();
   return (
     <>
       <Heading mb='8' size='md'>
@@ -28,14 +26,14 @@ function Top5Clients({ role }) {
         justifyContent='center'
         flexWrap='wrap'
       >
-        {clients &&
-          clients.map((client) => (
-            <Card key={client.id} rounded={10} p='5' maxW='250px'>
-              <Heading size='sm'>{client.name}</Heading>
-              <Text>{client.description}</Text>
-              <CardFooter>
-                {client.ratingsAverage}({client.ratingsQuantity})
-                <StarIcon m='auto' ml='4px' />
+        {agents &&
+          agents.map((x) => (
+            <Card key={x.id} rounded={10} p='5' maxW='250px'>
+              <Heading size='sm'>{x.name}</Heading>
+              <Text>{x.description}</Text>
+              <CardFooter alignItems='center' gap={1}>
+                {x.ratingsAverage}({x.ratingsQuantity})
+                <Rating rating={x.ratingsAverage} />
               </CardFooter>
             </Card>
           ))}
@@ -44,4 +42,4 @@ function Top5Clients({ role }) {
   );
 }
 
-export default Top5Clients;
+export default Top5Agents;

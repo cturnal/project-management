@@ -1,21 +1,13 @@
 import {
-  Container,
-  Heading,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Icon,
-  Flex,
-  useBreakpointValue,
-  useMediaQuery,
 } from '@chakra-ui/react';
 import { FaFolder, FaUserTie, FaUsers, FaUser } from 'react-icons/fa';
-import Top5Clients from './Top5Clients';
-import Top5Agents from './Top5Clients';
-import Top5Developers from './Top5Developers';
-import Top5Managers from './Top5Managers';
+import Top5Agents from './Top5Agents';
 import Top5Projects from './Top5Projects';
 
 const overviewTabs = [
@@ -38,7 +30,6 @@ const overviewTabs = [
 ];
 
 function Overview() {
-  const [isLargerThanMD] = useMediaQuery('(min-width: 768px)');
   return (
     <>
       <Tabs size='md' mx={{ base: '5', md: '40px' }}>
@@ -49,7 +40,7 @@ function Overview() {
               flexWrap='wrap'
               roundedTop='10'
               gap={1}
-              px={{ base: '5px', sm: '4' }}
+              px={{ base: '8px', sm: '4' }}
               fontSize={{ base: 11, sm: 12, md: 14 }}
               _selected={{
                 bg: '#3b5998',
@@ -67,13 +58,13 @@ function Overview() {
             <Top5Projects />
           </TabPanel>
           <TabPanel>
-            <Top5Managers role='managers' />
+            <Top5Agents role='managers' />
           </TabPanel>
           <TabPanel>
-            <Top5Developers role='developers' />
+            <Top5Agents role='developers' />
           </TabPanel>
           <TabPanel>
-            <Top5Clients role='clients' />
+            <Top5Agents role='clients' />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -56,7 +56,7 @@ reviewSchema.statics.calcAverageRatings = async function (employee) {
   } else {
     await User.findByIdAndUpdate(employee, {
       ratingsQuantity: 0,
-      ratingsAverage: 4.5,
+      ratingsAverage: 0,
     });
   }
 };

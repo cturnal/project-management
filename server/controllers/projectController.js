@@ -17,7 +17,7 @@ const limitFieldsByRole = asyncHandler(async (req, res, next) => {
       client: user,
     };
   } else if (
-    user === project?.client._id.toString() &&
+    user === project?.client?._id.toString() &&
     project.status === 'pending'
   ) {
     req.body = {
@@ -25,7 +25,7 @@ const limitFieldsByRole = asyncHandler(async (req, res, next) => {
       description,
       manager,
     };
-  } else if (user === project?.manager._id.toString()) {
+  } else if (user === project?.manager?._id.toString()) {
     req.body = {
       status: 'in-progress',
       team,
@@ -60,7 +60,7 @@ const cancelProject = asyncHandler(async (req, res, next) => {
 
 const topProjects = (req, res, next) => {
   req.query.limit = '5';
-  req.query.status = 'pending';
+  req.query.status = 'completed';
   req.query.sort = '-ratingsAverage';
   next();
 };
